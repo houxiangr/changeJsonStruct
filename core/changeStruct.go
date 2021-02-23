@@ -32,26 +32,39 @@ func ChangeStruct(transferConfStr string, transferTarget string) (string, error)
 	return string(result), nil
 }
 
-func changeStructLogic(transferEntity interface{}, oneLevelJsonTargetObj map[string]interface{}) (map[string]interface{}, error){
+func changeStructLogic(transferEntity interface{}, oneLevelJsonTargetObj map[string]interface{}) (interface{}, error) {
 	var err error
 	switch reflect.TypeOf(transferEntity).Kind() {
 	case reflect.Map:
 		tempMap := make(map[string]interface{})
-		for k,v := range transferEntity.(map[string]interface{}) {
-			switch reflect.TypeOf(v).Kind(){
+		for k, v := range transferEntity.(map[string]interface{}) {
+			switch reflect.TypeOf(v).Kind() {
 			case reflect.String:
 				tempMap[k] = oneLevelJsonTargetObj[v.(string)]
 			default:
-				tempMap[k],err = changeStructLogic(v,oneLevelJsonTargetObj)
+				tempMap[k], err = changeStructLogic(v, oneLevelJsonTargetObj)
 				if err != nil {
-					return nil,err
+					return nil, err
 				}
 			}
 		}
-		return tempMap,nil
+		return tempMap, nil
 	case reflect.Slice:
+		tempSlice := []interface{}{}
+		for _, v := range transferEntity.([]interface{}) {
+			switch reflect.TypeOf(v).Kind() {
+			case reflect.String:
+				tempSlice = append(tempSlice, oneLevelJsonTargetObj[v.(string)])
+			default:
+				subObj, err := changeStructLogic(v, oneLevelJsonTargetObj)
+				if err != nil {
+					return nil, err
+				}
+				tempSlice = append(tempSlice, subObj)
+			}
+		}
+		return tempSlice,nil
 	default:
 		return nil, common.ChangeStructNoSupportType
 	}
-	return nil, nil
 }
