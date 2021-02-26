@@ -27,5 +27,7 @@ func (e Error) SetExtraMsg(s string) Error {
 var (
 	Success = Error{0, "success"}
 	//基础错误1000~1999
-	ChangeStructNoSupportType            = Error{1001, "not support type"}
+	ChangeStructNoSupportType = Error{1001, "not support type"}
+	ChangeStructNoSupportOpr  = Error{1002, "not support opr"}
+	OprDataTypeErr            = Error{1003, "opr data type err"}
 )
