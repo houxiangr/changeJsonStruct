@@ -28,6 +28,13 @@ func main(){
 			},
 			"$.key5"
 		]
+	},
+	"dup_key9": {
+		"opr": "muti_source",
+		"data": [
+			"$.key5",
+			"$.key2"
+		]
 	}
 }`
 	transferTarget:=`{

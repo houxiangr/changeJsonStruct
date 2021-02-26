@@ -20,17 +20,6 @@
         "data": "$.key8",
         "to_type": "string"
       },
-      "key9": {
-        "opr": "muti_source",
-        "data": [
-          "$.key8",
-          {
-            "opr": "change_type",
-            "data": "$.key8",
-            "to_type": "string"
-          }
-        ]
-      },
       "key10": {
         "opr": "repeat_get",
         "data": "$.key8",

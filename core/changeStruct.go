@@ -13,7 +13,8 @@ const (
 )
 
 const (
-	OprTypeMerge = "merge_map"
+	OprTypeMerge      = "merge_map"
+	OprTypeMutiSource = "muti_source"
 )
 
 func ChangeStruct(transferConfStr string, transferTarget string) (string, error) {
@@ -54,7 +55,7 @@ func changeStructLogic(transferEntity interface{}, oneLevelJsonTargetObj map[str
 			case reflect.Map:
 				vMap := v.(map[string]interface{})
 				if common.MapIsHaveKey(vMap, OprKey) {
-					tempMap[k], err = DealSpecialOpr(vMap,oneLevelJsonTargetObj)
+					tempMap[k], err = DealSpecialOpr(vMap, oneLevelJsonTargetObj)
 					if err != nil {
 						return nil, err
 					}
@@ -99,8 +100,9 @@ func changeStructLogic(transferEntity interface{}, oneLevelJsonTargetObj map[str
 func DealSpecialOpr(source map[string]interface{}, oneLevelJsonTargetObj map[string]interface{}) (interface{}, error) {
 	switch source[OprKey].(string) {
 	case OprTypeMerge:
-		resMap := make(map[string]interface{})
 		oprData := source[OprDataKey].([]interface{})
+
+		resMap := make(map[string]interface{})
 		for _, v := range oprData {
 			switch reflect.TypeOf(v).Kind() {
 			case reflect.String:
@@ -113,23 +115,49 @@ func DealSpecialOpr(source map[string]interface{}, oneLevelJsonTargetObj map[str
 				if !ok {
 					return nil, common.OprDataTypeErr
 				}
-				common.MergeMap(resMap,targetMap)
+				common.MergeMap(resMap, targetMap)
 			case reflect.Map:
-				targetObj, err := changeStructLogic(v,oneLevelJsonTargetObj)
+				targetObj, err := changeStructLogic(v, oneLevelJsonTargetObj)
 				if err != nil {
-					return nil,err
+					return nil, err
 				}
 				targetMap, ok := targetObj.(map[string]interface{})
 				if !ok {
 					return nil, common.OprDataTypeErr
 				}
-				common.MergeMap(resMap,targetMap)
+				common.MergeMap(resMap, targetMap)
 			default:
 				return nil, common.ChangeStructNoSupportType
 			}
 		}
-
 		return resMap, nil
+	case OprTypeMutiSource:
+		oprData := source[OprDataKey].([]interface{})
+		for _, v := range oprData {
+			switch reflect.TypeOf(v).Kind() {
+			case reflect.String:
+				targetObj, ok := oneLevelJsonTargetObj[v.(string)]
+				//not find target,ignore
+				if !ok {
+					continue
+				} else {
+					return targetObj, nil
+				}
+
+			case reflect.Map:
+				targetObj, err := changeStructLogic(v, oneLevelJsonTargetObj)
+				if err != nil {
+					return nil, err
+				}
+				if targetObj != nil {
+					return targetObj, nil
+				}
+			default:
+				return nil, common.ChangeStructNoSupportType
+			}
+		}
+		//all not find
+		return nil, nil
 	default:
 		return nil, common.ChangeStructNoSupportOpr
 	}
