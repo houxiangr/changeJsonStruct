@@ -55,7 +55,7 @@ func changeStructLogic(transferEntity interface{}, oneLevelJsonTargetObj map[str
 			case reflect.Map:
 				vMap := v.(map[string]interface{})
 				if common.MapIsHaveKey(vMap, OprKey) {
-					tempMap[k], err = DealSpecialOpr(vMap, oneLevelJsonTargetObj)
+					tempMap[k], err = dealSpecialOpr(vMap, oneLevelJsonTargetObj)
 					if err != nil {
 						return nil, err
 					}
@@ -97,68 +97,76 @@ func changeStructLogic(transferEntity interface{}, oneLevelJsonTargetObj map[str
 	}
 }
 
-func DealSpecialOpr(source map[string]interface{}, oneLevelJsonTargetObj map[string]interface{}) (interface{}, error) {
+func dealSpecialOpr(source map[string]interface{}, oneLevelJsonTargetObj map[string]interface{}) (interface{}, error) {
 	switch source[OprKey].(string) {
 	case OprTypeMerge:
-		oprData := source[OprDataKey].([]interface{})
-
-		resMap := make(map[string]interface{})
-		for _, v := range oprData {
-			switch reflect.TypeOf(v).Kind() {
-			case reflect.String:
-				targetObj, ok := oneLevelJsonTargetObj[v.(string)]
-				//not find target,ignore
-				if !ok {
-					continue
-				}
-				targetMap, ok := targetObj.(map[string]interface{})
-				if !ok {
-					return nil, common.OprDataTypeErr
-				}
-				common.MergeMap(resMap, targetMap)
-			case reflect.Map:
-				targetObj, err := changeStructLogic(v, oneLevelJsonTargetObj)
-				if err != nil {
-					return nil, err
-				}
-				targetMap, ok := targetObj.(map[string]interface{})
-				if !ok {
-					return nil, common.OprDataTypeErr
-				}
-				common.MergeMap(resMap, targetMap)
-			default:
-				return nil, common.ChangeStructNoSupportType
-			}
-		}
-		return resMap, nil
+		return mergeMap(source,oneLevelJsonTargetObj)
 	case OprTypeMutiSource:
-		oprData := source[OprDataKey].([]interface{})
-		for _, v := range oprData {
-			switch reflect.TypeOf(v).Kind() {
-			case reflect.String:
-				targetObj, ok := oneLevelJsonTargetObj[v.(string)]
-				//not find target,ignore
-				if !ok {
-					continue
-				} else {
-					return targetObj, nil
-				}
-
-			case reflect.Map:
-				targetObj, err := changeStructLogic(v, oneLevelJsonTargetObj)
-				if err != nil {
-					return nil, err
-				}
-				if targetObj != nil {
-					return targetObj, nil
-				}
-			default:
-				return nil, common.ChangeStructNoSupportType
-			}
-		}
-		//all not find
-		return nil, nil
+		return mutiSource(source,oneLevelJsonTargetObj)
 	default:
 		return nil, common.ChangeStructNoSupportOpr
 	}
+}
+
+func mergeMap(source map[string]interface{}, oneLevelJsonTargetObj map[string]interface{})(interface{},error){
+	oprData := source[OprDataKey].([]interface{})
+
+	resMap := make(map[string]interface{})
+	for _, v := range oprData {
+		switch reflect.TypeOf(v).Kind() {
+		case reflect.String:
+			targetObj, ok := oneLevelJsonTargetObj[v.(string)]
+			//not find target,ignore
+			if !ok {
+				continue
+			}
+			targetMap, ok := targetObj.(map[string]interface{})
+			if !ok {
+				return nil, common.OprDataTypeErr
+			}
+			common.MergeMap(resMap, targetMap)
+		case reflect.Map:
+			targetObj, err := changeStructLogic(v, oneLevelJsonTargetObj)
+			if err != nil {
+				return nil, err
+			}
+			targetMap, ok := targetObj.(map[string]interface{})
+			if !ok {
+				return nil, common.OprDataTypeErr
+			}
+			common.MergeMap(resMap, targetMap)
+		default:
+			return nil, common.ChangeStructNoSupportType
+		}
+	}
+	return resMap,nil
+}
+
+func mutiSource(source map[string]interface{}, oneLevelJsonTargetObj map[string]interface{})(interface{},error){
+	oprData := source[OprDataKey].([]interface{})
+	for _, v := range oprData {
+		switch reflect.TypeOf(v).Kind() {
+		case reflect.String:
+			targetObj, ok := oneLevelJsonTargetObj[v.(string)]
+			//not find target,ignore
+			if !ok {
+				continue
+			} else {
+				return targetObj, nil
+			}
+
+		case reflect.Map:
+			targetObj, err := changeStructLogic(v, oneLevelJsonTargetObj)
+			if err != nil {
+				return nil, err
+			}
+			if targetObj != nil {
+				return targetObj, nil
+			}
+		default:
+			return nil, common.ChangeStructNoSupportType
+		}
+	}
+	//all not find
+	return nil, nil
 }
