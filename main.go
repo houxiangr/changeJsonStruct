@@ -51,6 +51,11 @@ func main(){
 				}
 			]
 		]
+	},
+	"key8": {
+		"opr": "change_type",
+		"data": "$.key1",
+		"to_type": "string"
 	}
 }`
 	transferTarget:=`{

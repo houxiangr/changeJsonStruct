@@ -30,4 +30,5 @@ var (
 	ChangeStructNoSupportType = Error{1001, "not support type"}
 	ChangeStructNoSupportOpr  = Error{1002, "not support opr"}
 	OprDataTypeErr            = Error{1003, "opr data type err"}
+	OprChangeTypeToErr            = Error{1004, "change type to err"}
 )

@@ -12,8 +12,8 @@ const (
 	OprTypeMergeMap     = "merge_map"
 	OprTypeMergeSlice   = "merge_slice"
 	OprTypeMutiSource   = "muti_source"
+	OprTypeChangeType   = "change_type"
 )
-
 
 func dealSpecialOpr(source map[string]interface{}, oneLevelJsonTargetObj map[string]interface{}) (interface{}, error) {
 	switch source[OprKey].(string) {
@@ -25,6 +25,8 @@ func dealSpecialOpr(source map[string]interface{}, oneLevelJsonTargetObj map[str
 		return mutiSource(source, oneLevelJsonTargetObj)
 	case OprTypeDefaultValue:
 		return defaultValue(source)
+	case OprTypeChangeType:
+		return changeType(source, oneLevelJsonTargetObj)
 	default:
 		return nil, common.ChangeStructNoSupportOpr
 	}
