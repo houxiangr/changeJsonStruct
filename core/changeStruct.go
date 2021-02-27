@@ -13,6 +13,7 @@ const (
 )
 
 const (
+	OprTypeDefaultValue = "default_value"
 	OprTypeMerge      = "merge_map"
 	OprTypeMutiSource = "muti_source"
 )
@@ -103,6 +104,8 @@ func dealSpecialOpr(source map[string]interface{}, oneLevelJsonTargetObj map[str
 		return mergeMap(source,oneLevelJsonTargetObj)
 	case OprTypeMutiSource:
 		return mutiSource(source,oneLevelJsonTargetObj)
+	case OprTypeDefaultValue:
+		return defaultValue(source)
 	default:
 		return nil, common.ChangeStructNoSupportOpr
 	}
@@ -169,4 +172,8 @@ func mutiSource(source map[string]interface{}, oneLevelJsonTargetObj map[string]
 	}
 	//all not find
 	return nil, nil
+}
+
+func defaultValue(source map[string]interface{})(interface{}, error){
+	return source[OprDataKey],nil
 }

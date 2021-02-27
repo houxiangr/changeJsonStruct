@@ -35,6 +35,10 @@ func main(){
 			"$.key5",
 			"$.key2"
 		]
+	},
+    "dup_key10": {
+		"opr": "default_value",
+		"data": 10
 	}
 }`
 	transferTarget:=`{
