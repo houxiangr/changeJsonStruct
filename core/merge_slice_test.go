@@ -38,7 +38,7 @@ func Test_mergeSlice(t *testing.T) {
 					},
 				},
 			},
-			want: []interface{}{float64(1),float64(2),float64(3),float64(4)},
+			want:    []interface{}{float64(1), float64(2), float64(3), float64(4)},
 			wanterr: nil,
 		},
 		{
@@ -53,7 +53,7 @@ func Test_mergeSlice(t *testing.T) {
 					},
 				},
 			},
-			want: []interface{}{float64(1),float64(2),float64(1)},
+			want:    []interface{}{float64(1), float64(2), float64(1)},
 			wanterr: nil,
 		},
 	}

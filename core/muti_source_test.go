@@ -38,7 +38,7 @@ func Test_muti_source(t *testing.T) {
 					},
 				},
 			},
-			want: []interface{}{float64(1),float64(2)},
+			want:    []interface{}{float64(1), float64(2)},
 			wanterr: nil,
 		},
 		{
@@ -51,7 +51,7 @@ func Test_muti_source(t *testing.T) {
 					},
 				},
 			},
-			want: []interface{}{float64(1),float64(2)},
+			want:    []interface{}{float64(1), float64(2)},
 			wanterr: nil,
 		},
 		{
@@ -61,13 +61,13 @@ func Test_muti_source(t *testing.T) {
 					OprDataKey: []interface{}{
 						"$.key_not_exist",
 						map[string]interface{}{
-							"key6":"$.key1",
+							"key6": "$.key1",
 						},
 					},
 				},
 			},
 			want: map[string]interface{}{
-				"key6":float64(1),
+				"key6": float64(1),
 			},
 			wanterr: nil,
 		},

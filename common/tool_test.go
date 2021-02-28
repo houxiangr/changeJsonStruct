@@ -55,10 +55,10 @@ func TestMergeMap(t *testing.T) {
 	}
 }
 
-func TestMapIsHaveKey(t *testing.T){
+func TestMapIsHaveKey(t *testing.T) {
 	type args struct {
 		map1 map[string]interface{}
-		key string
+		key  string
 	}
 	tests := []struct {
 		name string
@@ -71,7 +71,7 @@ func TestMapIsHaveKey(t *testing.T){
 				map1: map[string]interface{}{
 					"key1": 1,
 				},
-				key:"key1",
+				key: "key1",
 			},
 			want: true,
 		},

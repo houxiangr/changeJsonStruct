@@ -27,34 +27,34 @@ func changeType(source map[string]interface{}, jsonPathDeal jsonpath_type.Jsonpa
 	if !ok {
 		return nil, common.OprChangeTypeToErr
 	}
-	targetObj, _ :=  jsonPathDeal.GetValue(oprData)
+	targetObj, _ := jsonPathDeal.GetValue(oprData)
 	switch reflect.TypeOf(targetObj).Kind() {
 	case reflect.Float64:
 		switch typeTo {
 		case TypeToString:
-			return fmt.Sprintf("%+v",targetObj),nil
+			return fmt.Sprintf("%+v", targetObj), nil
 		case TypeToInt:
-			return targetObj,nil
+			return targetObj, nil
 		default:
 			return nil, common.OprChangeTypeToErr
 		}
 	case reflect.String:
 		switch typeTo {
 		case TypeToString:
-			return targetObj,nil
+			return targetObj, nil
 		case TypeToInt:
-			return strconv.ParseInt(targetObj.(string),10,64)
+			return strconv.ParseInt(targetObj.(string), 10, 64)
 		default:
 			return nil, common.OprChangeTypeToErr
 		}
-	case reflect.Map,reflect.Slice:
-		switch typeTo{
+	case reflect.Map, reflect.Slice:
+		switch typeTo {
 		case TypeToString:
-			v,err := json.Marshal(targetObj)
+			v, err := json.Marshal(targetObj)
 			if err != nil {
-				return nil,err
+				return nil, err
 			}
-			return string(v),nil
+			return string(v), nil
 		default:
 			return nil, common.OprChangeTypeToErr
 		}

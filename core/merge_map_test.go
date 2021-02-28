@@ -42,9 +42,9 @@ func Test_mergeMap(t *testing.T) {
 					},
 				},
 			},
-			want:   map[string]interface{}{
-				"key4":float64(4),
-				"key6":float64(6),
+			want: map[string]interface{}{
+				"key4": float64(4),
+				"key6": float64(6),
 			},
 			wanterr: nil,
 		},
@@ -55,14 +55,14 @@ func Test_mergeMap(t *testing.T) {
 					OprDataKey: []interface{}{
 						"$.key3",
 						map[string]interface{}{
-							"key7":"$.key1",
+							"key7": "$.key1",
 						},
 					},
 				},
 			},
-			want:   map[string]interface{}{
-				"key4":float64(4),
-				"key7":float64(1),
+			want: map[string]interface{}{
+				"key4": float64(4),
+				"key7": float64(1),
 			},
 			wanterr: nil,
 		},
