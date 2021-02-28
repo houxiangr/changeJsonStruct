@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"github.com/changeJsonStruct/core"
-)
+import "github.com/changeJsonStruct/core"
 
 func main(){
 	transferConf := `{
@@ -74,4 +71,3 @@ func main(){
 	fmt.Println(res)
 	fmt.Println(err)
 }
-
