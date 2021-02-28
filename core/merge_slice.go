@@ -2,20 +2,26 @@ package core
 
 import (
 	"github.com/changeJsonStruct/common"
+	"github.com/changeJsonStruct/core/jsonpath_type"
 	"reflect"
 )
 
-func mergeSlice(source map[string]interface{}, oneLevelJsonTargetObj map[string]interface{}) (interface{}, error) {
+func mergeSlice(source map[string]interface{}, jsonPathDeal jsonpath_type.Jsonpath) (interface{}, error) {
+	var err error
+	var targetObj interface{}
 	oprData := source[OprDataKey].([]interface{})
 
 	resSlice := []interface{}{}
 	for _, v := range oprData {
 		switch reflect.TypeOf(v).Kind() {
 		case reflect.String:
-			targetObj, ok := oneLevelJsonTargetObj[v.(string)]
+			targetObj, err = jsonPathDeal.GetValue(v.(string))
 			//not find target,ignore
-			if !ok {
+			if err == common.JsonPathValueNotExist {
 				continue
+			}
+			if err != nil {
+				return nil,err
 			}
 			targetSlice, ok := targetObj.([]interface{})
 			if !ok {
@@ -25,7 +31,7 @@ func mergeSlice(source map[string]interface{}, oneLevelJsonTargetObj map[string]
 		case reflect.Slice:
 			tempObj := make(map[string]interface{})
 			tempObj[OprTypeMergeSlice] = v
-			targetObj, err := changeStructLogic(tempObj, oneLevelJsonTargetObj)
+			targetObj, err = changeStructLogic(tempObj, jsonPathDeal)
 			if err != nil {
 				return nil, err
 			}

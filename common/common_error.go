@@ -27,8 +27,10 @@ func (e Error) SetExtraMsg(s string) Error {
 var (
 	Success = Error{0, "success"}
 	//基础错误1000~1999
-	ChangeStructNoSupportType = Error{1001, "not support type"}
-	ChangeStructNoSupportOpr  = Error{1002, "not support opr"}
-	OprDataTypeErr            = Error{1003, "opr data type err"}
-	OprChangeTypeToErr            = Error{1004, "change type to err"}
+	ChangeStructNoSupportType  = Error{1001, "not support type"}
+	ChangeStructNoSupportOpr   = Error{1002, "not support opr"}
+	OprDataTypeErr             = Error{1003, "opr data type err"}
+	OprChangeTypeToErr         = Error{1004, "change type to err"}
+	NotHaveJsonPathHandlerType = Error{1005, "not have json path handler type"}
+	JsonPathValueNotExist      = Error{1006, "json path value not exist"}
 )

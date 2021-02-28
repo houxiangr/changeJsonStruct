@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/changeJsonStruct/common"
+	"github.com/changeJsonStruct/core/jsonpath_type"
 	"reflect"
 	"strconv"
 )
@@ -17,7 +18,7 @@ const (
 	TypeToInt    = "int"
 )
 
-func changeType(source map[string]interface{}, oneLevelJsonTargetObj map[string]interface{}) (interface{}, error) {
+func changeType(source map[string]interface{}, jsonPathDeal jsonpath_type.Jsonpath) (interface{}, error) {
 	oprData, ok := source[OprDataKey].(string)
 	if !ok {
 		return nil, common.OprDataTypeErr
@@ -26,7 +27,7 @@ func changeType(source map[string]interface{}, oneLevelJsonTargetObj map[string]
 	if !ok {
 		return nil, common.OprChangeTypeToErr
 	}
-	targetObj, ok := oneLevelJsonTargetObj[oprData]
+	targetObj, _ :=  jsonPathDeal.GetValue(oprData)
 	switch reflect.TypeOf(targetObj).Kind() {
 	case reflect.Float64:
 		switch typeTo {
@@ -57,7 +58,6 @@ func changeType(source map[string]interface{}, oneLevelJsonTargetObj map[string]
 		default:
 			return nil, common.OprChangeTypeToErr
 		}
-
 	default:
 		return nil, common.ChangeStructNoSupportType
 	}

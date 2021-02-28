@@ -1,6 +1,10 @@
 package main
 
-import "github.com/changeJsonStruct/core"
+import (
+	"fmt"
+	"github.com/changeJsonStruct/core"
+	"github.com/changeJsonStruct/core/jsonpath_type"
+)
 
 func main(){
 	transferConf := `{
@@ -67,7 +71,7 @@ func main(){
 		3
 	]
 }`
-	res,err := core.ChangeStruct(transferConf,transferTarget)
+	res,err := core.ChangeStruct(transferConf,transferTarget,jsonpath_type.JsonPathTypeOneLevel)
 	fmt.Println(res)
 	fmt.Println(err)
 }

@@ -2,24 +2,28 @@ package core
 
 import (
 	"github.com/changeJsonStruct/common"
+	"github.com/changeJsonStruct/core/jsonpath_type"
 	"reflect"
 )
 
-func mutiSource(source map[string]interface{}, oneLevelJsonTargetObj map[string]interface{}) (interface{}, error) {
+func mutiSource(source map[string]interface{}, jsonPathDeal jsonpath_type.Jsonpath) (interface{}, error) {
+	var targetObj interface{}
+	var err error
 	oprData := source[OprDataKey].([]interface{})
 	for _, v := range oprData {
 		switch reflect.TypeOf(v).Kind() {
 		case reflect.String:
-			targetObj, ok := oneLevelJsonTargetObj[v.(string)]
+			targetObj, err = jsonPathDeal.GetValue(v.(string))
 			//not find target,ignore
-			if !ok {
+			if err == common.JsonPathValueNotExist {
 				continue
-			} else {
-				return targetObj, nil
 			}
-
+			if err != nil {
+				return nil, err
+			}
+			return targetObj, nil
 		case reflect.Map:
-			targetObj, err := changeStructLogic(v, oneLevelJsonTargetObj)
+			targetObj, err := changeStructLogic(v, jsonPathDeal)
 			if err != nil {
 				return nil, err
 			}

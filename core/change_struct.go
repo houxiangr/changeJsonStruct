@@ -3,25 +3,20 @@ package core
 import (
 	"encoding/json"
 	"github.com/changeJsonStruct/common"
-	"github.com/houxiangr/transferOneLevelJson/core"
+	"github.com/changeJsonStruct/core/jsonpath_type"
 	"reflect"
 )
 
-func ChangeStruct(transferConfStr string, transferTarget string) (string, error) {
+func ChangeStruct(transferConfStr string, transferTarget string, jsonPathType string) (string, error) {
 	transferEntity := make(map[string]interface{})
 	err := json.Unmarshal([]byte(transferConfStr), &transferEntity)
 	if err != nil {
 		return "", err
 	}
 
-	oneLevelJsonTargetObj := make(map[string]interface{})
-	oneLevelJsonTarget, err := core.TransferToOneLevelShowAll(transferTarget)
-	err = json.Unmarshal([]byte(oneLevelJsonTarget), &oneLevelJsonTargetObj)
-	if err != nil {
-		return "", err
-	}
+	jsonPathDeal, err := jsonpath_type.GetJsonPathHandler(jsonPathType, transferTarget)
 
-	resultObj, err := changeStructLogic(transferEntity, oneLevelJsonTargetObj)
+	resultObj, err := changeStructLogic(transferEntity, jsonPathDeal)
 	if err != nil {
 		return "", err
 	}
@@ -32,7 +27,7 @@ func ChangeStruct(transferConfStr string, transferTarget string) (string, error)
 	return string(result), nil
 }
 
-func changeStructLogic(transferEntity interface{}, oneLevelJsonTargetObj map[string]interface{}) (interface{}, error) {
+func changeStructLogic(transferEntity interface{}, jsonPathDeal jsonpath_type.Jsonpath) (interface{}, error) {
 	var err error
 	switch reflect.TypeOf(transferEntity).Kind() {
 	case reflect.Map:
@@ -40,24 +35,27 @@ func changeStructLogic(transferEntity interface{}, oneLevelJsonTargetObj map[str
 		for k, v := range transferEntity.(map[string]interface{}) {
 			switch reflect.TypeOf(v).Kind() {
 			case reflect.String:
-				tempMap[k] = oneLevelJsonTargetObj[v.(string)]
+				tempMap[k], err = jsonPathDeal.GetValue(v.(string))
+				if err != nil {
+					return nil,err
+				}
 				break
 			case reflect.Map:
 				vMap := v.(map[string]interface{})
 				if common.MapIsHaveKey(vMap, OprKey) {
-					tempMap[k], err = dealSpecialOpr(vMap, oneLevelJsonTargetObj)
+					tempMap[k], err = dealSpecialOpr(vMap, jsonPathDeal)
 					if err != nil {
 						return nil, err
 					}
 					continue
 				}
-				tempMap[k], err = changeStructLogic(v, oneLevelJsonTargetObj)
+				tempMap[k], err = changeStructLogic(v, jsonPathDeal)
 				if err != nil {
 					return nil, err
 				}
 				break
 			default:
-				tempMap[k], err = changeStructLogic(v, oneLevelJsonTargetObj)
+				tempMap[k], err = changeStructLogic(v, jsonPathDeal)
 				if err != nil {
 					return nil, err
 				}
@@ -70,10 +68,14 @@ func changeStructLogic(transferEntity interface{}, oneLevelJsonTargetObj map[str
 		for _, v := range transferEntity.([]interface{}) {
 			switch reflect.TypeOf(v).Kind() {
 			case reflect.String:
-				tempSlice = append(tempSlice, oneLevelJsonTargetObj[v.(string)])
+				value, err := jsonPathDeal.GetValue(v.(string))
+				if err != nil {
+					return nil, err
+				}
+				tempSlice = append(tempSlice, value)
 				break
 			default:
-				subObj, err := changeStructLogic(v, oneLevelJsonTargetObj)
+				subObj, err := changeStructLogic(v, jsonPathDeal)
 				if err != nil {
 					return nil, err
 				}
@@ -86,4 +88,3 @@ func changeStructLogic(transferEntity interface{}, oneLevelJsonTargetObj map[str
 		return nil, common.ChangeStructNoSupportType
 	}
 }
-

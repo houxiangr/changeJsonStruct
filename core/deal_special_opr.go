@@ -1,6 +1,9 @@
 package core
 
-import "github.com/changeJsonStruct/common"
+import (
+	"github.com/changeJsonStruct/common"
+	"github.com/changeJsonStruct/core/jsonpath_type"
+)
 
 const (
 	OprKey     = "opr"
@@ -15,18 +18,18 @@ const (
 	OprTypeChangeType   = "change_type"
 )
 
-func dealSpecialOpr(source map[string]interface{}, oneLevelJsonTargetObj map[string]interface{}) (interface{}, error) {
+func dealSpecialOpr(source map[string]interface{}, jsonPathDeal jsonpath_type.Jsonpath) (interface{}, error) {
 	switch source[OprKey].(string) {
 	case OprTypeMergeMap:
-		return mergeMap(source, oneLevelJsonTargetObj)
+		return mergeMap(source, jsonPathDeal)
 	case OprTypeMergeSlice:
-		return mergeSlice(source, oneLevelJsonTargetObj)
+		return mergeSlice(source, jsonPathDeal)
 	case OprTypeMutiSource:
-		return mutiSource(source, oneLevelJsonTargetObj)
+		return mutiSource(source, jsonPathDeal)
 	case OprTypeDefaultValue:
 		return defaultValue(source)
 	case OprTypeChangeType:
-		return changeType(source, oneLevelJsonTargetObj)
+		return changeType(source, jsonPathDeal)
 	default:
 		return nil, common.ChangeStructNoSupportOpr
 	}
