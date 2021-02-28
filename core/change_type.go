@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	ToTypeKey = "to_type"
+	TypeToKey = "to_type"
 )
 
 const (
@@ -23,7 +23,7 @@ func changeType(source map[string]interface{}, jsonPathDeal jsonpath_type.Jsonpa
 	if !ok {
 		return nil, common.OprDataTypeErr
 	}
-	typeTo, ok := source[ToTypeKey].(string)
+	typeTo, ok := source[TypeToKey].(string)
 	if !ok {
 		return nil, common.OprChangeTypeToErr
 	}
