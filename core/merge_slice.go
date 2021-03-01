@@ -18,11 +18,11 @@ func mergeSlice(source map[string]interface{}, jsonPathDeal jsonpath_type.Jsonpa
 		case reflect.String:
 			targetObj, err = jsonPathDeal.GetValue(v.(string))
 			//not find target,ignore
-			if err != nil && strings.Contains(err.Error(), common.JsonPathValueNotExist.Error()){
+			if err != nil && strings.Contains(err.Error(), common.JsonPathValueNotExist.Error()) {
 				continue
 			}
 			if err != nil {
-				return nil,err
+				return nil, err
 			}
 			targetSlice, ok := targetObj.([]interface{})
 			if !ok {

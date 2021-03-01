@@ -22,7 +22,7 @@ func mergeMap(source map[string]interface{}, jsonPathDeal jsonpath_type.Jsonpath
 				continue
 			}
 			if err != nil {
-				return nil,err
+				return nil, err
 			}
 			targetMap, ok := targetObj.(map[string]interface{})
 			if !ok {
@@ -45,4 +45,3 @@ func mergeMap(source map[string]interface{}, jsonPathDeal jsonpath_type.Jsonpath
 	}
 	return resMap, nil
 }
-
