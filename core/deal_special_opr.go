@@ -1,8 +1,8 @@
 package core
 
 import (
-	"github.com/changeJsonStruct/common"
-	"github.com/changeJsonStruct/core/jsonpath_type"
+	"github.com/houxiangr/changeJsonStruct/common"
+	"github.com/houxiangr/changeJsonStruct/core/jsonpath_type"
 )
 
 const (

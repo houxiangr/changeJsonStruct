@@ -7,6 +7,11 @@ import (
 )
 
 func TransferToOneLevel(source string) (string, error) {
+	cacheLock.RLock()
+	if cacheRes, ok := cacheMap[source]; ok {
+		return cacheRes, nil
+	}
+	cacheLock.RUnlock()
 	var objMap interface{}
 	res := make(map[string]interface{})
 	var err error
@@ -14,7 +19,7 @@ func TransferToOneLevel(source string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	err = dealObjMap("$", objMap, &res,false)
+	err = dealObjMap("$", objMap, &res, false)
 	if err != nil {
 		return "", err
 	}
@@ -23,11 +28,19 @@ func TransferToOneLevel(source string) (string, error) {
 		return "", err
 	}
 
+	cacheLock.Lock()
+	cacheMap[source] = string(resbyte)
+	cacheLock.Unlock()
+
 	return string(resbyte), nil
 }
-
 
 func TransferToOneLevelShowAll(source string) (string, error) {
+	cacheLock.RLock()
+	if cacheRes, ok := cacheMap[source]; ok {
+		return cacheRes, nil
+	}
+	cacheLock.RUnlock()
 	var objMap interface{}
 	res := make(map[string]interface{})
 	var err error
@@ -35,7 +48,7 @@ func TransferToOneLevelShowAll(source string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	err = dealObjMap("$", objMap, &res,true)
+	err = dealObjMap("$", objMap, &res, true)
 	if err != nil {
 		return "", err
 	}
@@ -44,10 +57,14 @@ func TransferToOneLevelShowAll(source string) (string, error) {
 		return "", err
 	}
 
+	cacheLock.Lock()
+	cacheMap[source] = string(resbyte)
+	cacheLock.Unlock()
+
 	return string(resbyte), nil
 }
 
-func dealObjMap(baseKey string, obj interface{}, res *map[string]interface{},isShowAll bool) error {
+func dealObjMap(baseKey string, obj interface{}, res *map[string]interface{}, isShowAll bool) error {
 	var err error
 	baseKeyBytes := []byte(baseKey)
 
@@ -56,13 +73,13 @@ func dealObjMap(baseKey string, obj interface{}, res *map[string]interface{},isS
 		if isShowAll {
 			(*res)[baseKey] = obj
 		}
-		for k,v := range obj.(map[string]interface{}) {
+		for k, v := range obj.(map[string]interface{}) {
 			tempBaseKeyBytes := []byte{}
 			if baseKey != "" {
 				tempBaseKeyBytes = append(baseKeyBytes, []byte(".")...)
 			}
 			tempBaseKeyBytes = append(tempBaseKeyBytes, []byte(k)...)
-			err = dealObjMap(string(tempBaseKeyBytes), v, res,isShowAll)
+			err = dealObjMap(string(tempBaseKeyBytes), v, res, isShowAll)
 			if err != nil {
 				return err
 			}
@@ -75,7 +92,7 @@ func dealObjMap(baseKey string, obj interface{}, res *map[string]interface{},isS
 			tempBaseKeyBytes := append(baseKeyBytes, []byte("[")...)
 			tempBaseKeyBytes = append(tempBaseKeyBytes, []byte(strconv.Itoa(k))...)
 			tempBaseKeyBytes = append(tempBaseKeyBytes, []byte("]")...)
-			err = dealObjMap(string(tempBaseKeyBytes), v, res,isShowAll)
+			err = dealObjMap(string(tempBaseKeyBytes), v, res, isShowAll)
 			if err != nil {
 				return err
 			}

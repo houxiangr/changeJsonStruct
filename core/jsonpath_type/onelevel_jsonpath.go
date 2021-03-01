@@ -2,7 +2,7 @@ package jsonpath_type
 
 import (
 	"encoding/json"
-	"github.com/changeJsonStruct/common"
+	"github.com/houxiangr/changeJsonStruct/common"
 	"github.com/houxiangr/transferOneLevelJson/core"
 )
 
@@ -10,11 +10,11 @@ import (
 //github.com/houxiangr/transferOneLevelJson explain json
 
 type OneLevelJsonpath struct {
-	oneTarget map[string]interface{}
+	oneLevelTarget map[string]interface{}
 }
 
 func (this OneLevelJsonpath) GetValue(expr string) (interface{}, error) {
-	value, ok := this.oneTarget[expr]
+	value, ok := this.oneLevelTarget[expr]
 	if !ok {
 		return nil, common.JsonPathValueNotExist.SetExtraMsg("err expr is:" + expr)
 	}
@@ -28,6 +28,6 @@ func (this *OneLevelJsonpath) Init(transferTarget string) error {
 	if err != nil {
 		return err
 	}
-	this.oneTarget = oneLevelJsonTargetObj
+	this.oneLevelTarget = oneLevelJsonTargetObj
 	return nil
 }

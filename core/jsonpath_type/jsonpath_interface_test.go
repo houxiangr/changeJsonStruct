@@ -1,7 +1,7 @@
 package jsonpath_type
 
 import (
-	"github.com/changeJsonStruct/common"
+	"github.com/houxiangr/changeJsonStruct/common"
 	"reflect"
 	"testing"
 )

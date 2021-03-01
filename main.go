@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/changeJsonStruct/core"
-	"github.com/changeJsonStruct/core/jsonpath_type"
+	"github.com/houxiangr/changeJsonStruct/core"
+	"github.com/houxiangr/changeJsonStruct/core/jsonpath_type"
 )
 
 func main() {

@@ -2,7 +2,7 @@ package jsonpath_type
 
 import (
 	"encoding/json"
-	"github.com/changeJsonStruct/common"
+	"github.com/houxiangr/changeJsonStruct/common"
 	"github.com/oliveagle/jsonpath"
 	"strings"
 )

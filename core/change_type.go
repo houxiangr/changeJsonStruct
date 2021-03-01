@@ -3,8 +3,8 @@ package core
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/changeJsonStruct/common"
-	"github.com/changeJsonStruct/core/jsonpath_type"
+	"github.com/houxiangr/changeJsonStruct/common"
+	"github.com/houxiangr/changeJsonStruct/core/jsonpath_type"
 	"reflect"
 	"strconv"
 )

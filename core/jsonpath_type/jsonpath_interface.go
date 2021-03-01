@@ -1,6 +1,6 @@
 package jsonpath_type
 
-import "github.com/changeJsonStruct/common"
+import "github.com/houxiangr/changeJsonStruct/common"
 
 const (
 	JsonPathTypeOneLevel = "one_level"
