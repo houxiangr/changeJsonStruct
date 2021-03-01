@@ -8,10 +8,12 @@ import (
 
 func TransferToOneLevel(source string) (string, error) {
 	cacheLock.RLock()
-	if cacheRes, ok := cacheMap[source]; ok {
+	cacheRes, ok := cacheMap[source]
+	cacheLock.RUnlock()
+	if ok {
 		return cacheRes, nil
 	}
-	cacheLock.RUnlock()
+
 	var objMap interface{}
 	res := make(map[string]interface{})
 	var err error
@@ -37,10 +39,12 @@ func TransferToOneLevel(source string) (string, error) {
 
 func TransferToOneLevelShowAll(source string) (string, error) {
 	cacheLock.RLock()
-	if cacheRes, ok := cacheMap[source]; ok {
+	cacheRes, ok := cacheMap[source]
+	cacheLock.RUnlock()
+	if ok {
 		return cacheRes, nil
 	}
-	cacheLock.RUnlock()
+
 	var objMap interface{}
 	res := make(map[string]interface{})
 	var err error

@@ -65,7 +65,7 @@ func TestChangeStruct(t *testing.T) {
 			args: args{
 				transferConfStr: `{}`,
 				transferTarget:  `{"key1":1,"key2":2,"key3":{"key4":4},"key5":[1,2,3]}`,
-				jsonPathType:    jsonpath_type.JsonPathTypeOneLevel,
+				jsonPathType:    jsonpath_type.JsonPathTypeExpr,
 			},
 			want:    `{}`,
 			wanterr: nil,
