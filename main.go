@@ -26,8 +26,7 @@ func main(){
 			"$.key3",
 			{
 				"dup_key8": "$.key1"
-			},
-			"$.key_not_exist"
+			}
 		]
 	},
 	"dup_key9": {

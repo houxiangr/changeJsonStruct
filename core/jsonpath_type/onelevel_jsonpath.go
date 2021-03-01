@@ -13,15 +13,15 @@ type OneLevelJsonpath struct {
 	oneTarget map[string]interface{}
 }
 
-func (this OneLevelJsonpath) GetValue(expr string) (interface{},error) {
-	value,ok := this.oneTarget[expr]
+func (this OneLevelJsonpath) GetValue(expr string) (interface{}, error) {
+	value, ok := this.oneTarget[expr]
 	if !ok {
-		return nil,common.JsonPathValueNotExist.SetExtraMsg("err expr is:"+expr)
+		return nil, common.JsonPathValueNotExist.SetExtraMsg("err expr is:" + expr)
 	}
-	return value,nil
+	return value, nil
 }
 
-func (this *OneLevelJsonpath) Init(transferTarget string)error{
+func (this *OneLevelJsonpath) Init(transferTarget string) error {
 	oneLevelJsonTargetObj := make(map[string]interface{})
 	oneLevelJsonTarget, err := core.TransferToOneLevelShowAll(transferTarget)
 	err = json.Unmarshal([]byte(oneLevelJsonTarget), &oneLevelJsonTargetObj)
@@ -31,4 +31,3 @@ func (this *OneLevelJsonpath) Init(transferTarget string)error{
 	this.oneTarget = oneLevelJsonTargetObj
 	return nil
 }
-
