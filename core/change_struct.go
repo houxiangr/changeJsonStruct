@@ -37,7 +37,7 @@ func changeStructLogic(transferEntity interface{}, jsonPathDeal jsonpath_type.Js
 			case reflect.String:
 				tempMap[k], err = jsonPathDeal.GetValue(v.(string))
 				if err != nil {
-					return nil,err
+					return nil, err
 				}
 				break
 			case reflect.Map:
