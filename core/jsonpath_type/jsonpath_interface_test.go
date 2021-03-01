@@ -25,6 +25,14 @@ func TestGetJsonPathHandler(t *testing.T) {
 			wanterr: nil,
 		},
 		{
+			name: "expr jsonpath handler",
+			args: args{
+				jsonPathType: JsonPathTypeExpr,
+			},
+			want:    "*jsonpath_type.ExprJsonpath",
+			wanterr: nil,
+		},
+		{
 			name: "not match jsonpath handler",
 			args: args{
 				jsonPathType: "not_exist_type",

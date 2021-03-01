@@ -6,6 +6,9 @@ import (
 	"github.com/houxiangr/transferOneLevelJson/core"
 )
 
+//use open source
+//github.com/houxiangr/transferOneLevelJson explain json
+
 type OneLevelJsonpath struct {
 	oneTarget map[string]interface{}
 }
@@ -13,7 +16,7 @@ type OneLevelJsonpath struct {
 func (this OneLevelJsonpath) GetValue(expr string) (interface{},error) {
 	value,ok := this.oneTarget[expr]
 	if !ok {
-		return nil,common.JsonPathValueNotExist
+		return nil,common.JsonPathValueNotExist.SetExtraMsg("err expr is:"+expr)
 	}
 	return value,nil
 }

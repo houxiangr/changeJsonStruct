@@ -1,3 +1,6 @@
 # github.com/houxiangr/transferOneLevelJson v1.0.2
 ## explicit
 github.com/houxiangr/transferOneLevelJson/core
+# github.com/oliveagle/jsonpath v0.0.0-20180606110733-2e52cf6e6852
+## explicit
+github.com/oliveagle/jsonpath
