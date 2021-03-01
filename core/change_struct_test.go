@@ -84,8 +84,8 @@ func TestChangeStruct(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := ChangeStruct(tt.args.transferConfStr, tt.args.transferTarget, tt.args.jsonPathType)
-			if err != nil && tt.wanterr != nil && !strings.Contains(err.Error(),tt.wanterr.Error()) {
-				t.Errorf("ChangeStruct(),err=%+v, wanterr %+v ", err.Error(),tt.wanterr.Error())
+			if err != nil && tt.wanterr != nil && !strings.Contains(err.Error(), tt.wanterr.Error()) {
+				t.Errorf("ChangeStruct(),err=%+v, wanterr %+v ", err.Error(), tt.wanterr.Error())
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ChangeStruct() = %v, want %v", got, tt.want)

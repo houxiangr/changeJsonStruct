@@ -4,6 +4,7 @@ import (
 	"github.com/changeJsonStruct/common"
 	"github.com/changeJsonStruct/core/jsonpath_type"
 	"reflect"
+	"strings"
 )
 
 func mergeMap(source map[string]interface{}, jsonPathDeal jsonpath_type.Jsonpath) (interface{}, error) {
@@ -17,7 +18,7 @@ func mergeMap(source map[string]interface{}, jsonPathDeal jsonpath_type.Jsonpath
 		case reflect.String:
 			targetObj, err = jsonPathDeal.GetValue(v.(string))
 			//not find target,ignore
-			if err == common.JsonPathValueNotExist {
+			if err != nil && strings.Contains(err.Error(), common.JsonPathValueNotExist.Error()) {
 				continue
 			}
 			if err != nil {

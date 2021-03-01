@@ -6,7 +6,7 @@ import (
 	"github.com/changeJsonStruct/core/jsonpath_type"
 )
 
-func main(){
+func main() {
 	transferConf := `{
 	"dup_key1": "$.key1",
 	"dup_key2": "$.key2",
@@ -58,7 +58,7 @@ func main(){
 		"to_type": "string"
 	}
 }`
-	transferTarget:=`{
+	transferTarget := `{
 	"key1": 1,
 	"key2": 2,
 	"key3": {
@@ -70,7 +70,7 @@ func main(){
 		3
 	]
 }`
-	res,err := core.ChangeStruct(transferConf,transferTarget,jsonpath_type.JsonPathTypeOneLevel)
+	res, err := core.ChangeStruct(transferConf, transferTarget, jsonpath_type.JsonPathTypeOneLevel)
 	fmt.Println(res)
 	fmt.Println(err)
 }
