@@ -9,6 +9,7 @@ const (
 
 type Jsonpath interface {
 	GetValue(expr string) (interface{}, error)
+	GetType()string
 }
 
 func GetJsonPathHandler(jsonPathType string, target string) (Jsonpath, error) {

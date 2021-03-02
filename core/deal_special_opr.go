@@ -16,6 +16,7 @@ const (
 	OprTypeMergeSlice   = "merge_slice"
 	OprTypeMutiSource   = "muti_source"
 	OprTypeChangeType   = "change_type"
+	OprTypeRepeatGet    = "repeat_get"
 )
 
 func dealSpecialOpr(source map[string]interface{}, jsonPathDeal jsonpath_type.Jsonpath) (interface{}, error) {
@@ -30,6 +31,8 @@ func dealSpecialOpr(source map[string]interface{}, jsonPathDeal jsonpath_type.Js
 		return defaultValue(source)
 	case OprTypeChangeType:
 		return changeType(source, jsonPathDeal)
+	case OprTypeRepeatGet:
+		return repeatGet(source,jsonPathDeal)
 	default:
 		return nil, common.ChangeStructNoSupportOpr
 	}

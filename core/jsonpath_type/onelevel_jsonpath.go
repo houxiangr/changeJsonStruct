@@ -31,3 +31,7 @@ func (this *OneLevelJsonpath) Init(transferTarget string) error {
 	this.oneLevelTarget = oneLevelJsonTargetObj
 	return nil
 }
+
+func (this OneLevelJsonpath) GetType()string{
+	return JsonPathTypeOneLevel
+}
