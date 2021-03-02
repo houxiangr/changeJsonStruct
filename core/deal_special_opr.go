@@ -32,7 +32,7 @@ func dealSpecialOpr(source map[string]interface{}, jsonPathDeal jsonpath_type.Js
 	case OprTypeChangeType:
 		return changeType(source, jsonPathDeal)
 	case OprTypeRepeatGet:
-		return repeatGet(source,jsonPathDeal)
+		return repeatGet(source, jsonPathDeal)
 	default:
 		return nil, common.ChangeStructNoSupportOpr
 	}

@@ -32,6 +32,6 @@ func (this *ExprJsonpath) Init(transferTarget string) error {
 	return nil
 }
 
-func (this ExprJsonpath) GetType()string{
+func (this ExprJsonpath) GetType() string {
 	return JsonPathTypeExpr
 }

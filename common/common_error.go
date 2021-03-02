@@ -33,5 +33,5 @@ var (
 	OprChangeTypeToErr         = Error{1004, "change type to err"}
 	NotHaveJsonPathHandlerType = Error{1005, "not have json path handler type"}
 	JsonPathValueNotExist      = Error{1006, "json path value not exist"}
-	RepeatGetMiddleDataTypeErr = Error{1007,"repeat get data middle data err"}
+	RepeatGetMiddleDataTypeErr = Error{1007, "repeat get data middle data err"}
 )

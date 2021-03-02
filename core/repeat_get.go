@@ -39,7 +39,7 @@ func repeatGet(source map[string]interface{}, jsonPathDeal jsonpath_type.Jsonpat
 			}
 			nextTargetStr = string(nextBytes)
 		default:
-			return nil, common.RepeatGetMiddleDataTypeErr.SetExtraMsg(fmt.Sprintf("%+v",oprData[i]))
+			return nil, common.RepeatGetMiddleDataTypeErr.SetExtraMsg(fmt.Sprintf("%+v", oprData[i]))
 		}
 
 		switch reflect.TypeOf(oprData[i]).Kind() {
